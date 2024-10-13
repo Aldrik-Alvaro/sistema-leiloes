@@ -25,6 +25,7 @@ public class DispositivoController {
         return dispositivoService.listarTodos();
     }
 
+
     @Post
     public HttpResponse<DispositivoInformatica> salvar(@Body DispositivoInformatica dispositivo) {
         DispositivoInformatica novoDispositivo = dispositivoService.salvar(dispositivo);

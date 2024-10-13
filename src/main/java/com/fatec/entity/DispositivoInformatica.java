@@ -31,5 +31,12 @@ public class DispositivoInformatica {
     @Column(nullable = false)
     private String especificacoes;
 
+    @Column(nullable = false)
+    private double valorInicial;
+
+    @ManyToOne
+    @JoinColumn(name = "leilao_id", nullable = false)
+    private Leilao leilao;
+
 
 }

@@ -29,10 +29,12 @@ public class Veiculo {
     @Column(nullable = false)
     private int anoFabricacao;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String placa;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String chassi;
 
     @Column(nullable = false)
@@ -46,4 +48,8 @@ public class Veiculo {
 
     @Column(nullable = false)
     private String estadoConservacao;
+
+    @ManyToOne
+    @JoinColumn(name = "leilao_id", nullable = false)
+    private Leilao leilao; // Associação com Leilão
 }
