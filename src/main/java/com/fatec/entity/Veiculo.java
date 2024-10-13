@@ -6,18 +6,16 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import io.micronaut.serde.annotation.Serdeable;
 
-@Table(name = "dispositivo")
+@Table(name = "veiculo")
 @Data
 @NoArgsConstructor
 @Entity
 @Serdeable
-public class DispositivoInformatica {
+public class Veiculo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String nome;
 
     @Column(nullable = false)
     private String tipo;
@@ -29,7 +27,23 @@ public class DispositivoInformatica {
     private String modelo;
 
     @Column(nullable = false)
-    private String especificacoes;
+    private int anoFabricacao;
 
+    @Column(nullable = false, unique = true)
+    private String placa;
 
+    @Column(nullable = false, unique = true)
+    private String chassi;
+
+    @Column(nullable = false)
+    private String cor;
+
+    @Column(nullable = false)
+    private int kmRodados;
+
+    @Column(nullable = false)
+    private double valorInicial;
+
+    @Column(nullable = false)
+    private String estadoConservacao;
 }
