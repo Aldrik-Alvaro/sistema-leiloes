@@ -50,7 +50,7 @@ public class ClienteController {
 
     @Delete("/{id}")
     public HttpResponse<Void> remover(@PathVariable Long id) {
-        clienteService.remover(id);
+        clienteService.deletar(id);
         return HttpResponse.noContent();
     }
 }

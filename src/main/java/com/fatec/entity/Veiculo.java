@@ -2,7 +2,6 @@ package com.fatec.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import jakarta.persistence.*;
 import io.micronaut.serde.annotation.Serdeable;
 
@@ -29,11 +28,9 @@ public class Veiculo {
     @Column(nullable = false)
     private int anoFabricacao;
 
-    //@Column(nullable = false, unique = true)
     @Column(nullable = false)
     private String placa;
 
-    //@Column(nullable = false, unique = true)
     @Column(nullable = false)
     private String chassi;
 

@@ -46,7 +46,7 @@ public class DispositivoController {
 
     @Delete("/{id}")
     public HttpResponse<Void> remover(@PathVariable Long id) {
-        dispositivoService.remover(id);
+        dispositivoService.deletar(id);
         return HttpResponse.noContent();
     }
 }

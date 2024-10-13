@@ -2,7 +2,6 @@ package com.fatec.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import jakarta.persistence.*;
 import io.micronaut.serde.annotation.Serdeable;
 

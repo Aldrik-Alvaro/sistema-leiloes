@@ -18,7 +18,7 @@ public class InstituicaoFinanceira {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cnpj;
 
     @Column
