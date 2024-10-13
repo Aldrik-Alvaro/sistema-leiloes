@@ -38,5 +38,4 @@ public class DispositivoInformatica {
     @JoinColumn(name = "leilao_id", nullable = false)
     private Leilao leilao;
 
-
 }

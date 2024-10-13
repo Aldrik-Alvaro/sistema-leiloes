@@ -51,5 +51,5 @@ public class Veiculo {
 
     @ManyToOne
     @JoinColumn(name = "leilao_id", nullable = false)
-    private Leilao leilao; // Associação com Leilão
+    private Leilao leilao;
 }
