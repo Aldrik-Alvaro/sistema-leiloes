@@ -1,5 +1,6 @@
 package com.fatec.controller;
 
+import com.fatec.dto.DesassociarRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.*;
@@ -48,6 +49,13 @@ public class DispositivoController {
     public HttpResponse<Void> remover(@PathVariable Long id) {
         dispositivoService.deletar(id);
         return HttpResponse.noContent();
+    }
+
+    @Post("/{dispositivoId}/desassociar")
+    public void desassociarDispositivo(
+            @PathVariable Long dispositivoId,
+            @Body DesassociarRequest request) {
+        dispositivoService.desassociarDispositivoDeLeilao(dispositivoId, request.getLeilaoId(), request.getNovoLeilaoId());
     }
 }
 

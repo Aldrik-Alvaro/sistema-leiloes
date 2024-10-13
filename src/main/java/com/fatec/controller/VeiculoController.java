@@ -1,5 +1,6 @@
 package com.fatec.controller;
 
+import com.fatec.dto.DesassociarRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.*;
@@ -47,5 +48,12 @@ public class VeiculoController {
     public HttpResponse<Void> deletar(@PathVariable Long id) {
         veiculoService.deletar(id);
         return HttpResponse.noContent();
+    }
+
+    @Post("/{veiculoId}/desassociar")
+    public void desassociarVeiculo(
+            @PathVariable Long veiculoId,
+            @Body DesassociarRequest request) {
+        veiculoService.desassociarVeiculoLeilao(veiculoId, request.getLeilaoId(), request.getNovoLeilaoId());
     }
 }

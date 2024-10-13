@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 
+import com.fatec.entity.DispositivoInformatica;
+import com.fatec.entity.Leilao;
 import com.fatec.entity.Veiculo;
 import com.fatec.repository.LeilaoRepository;
 import com.fatec.repository.VeiculoRepository;
@@ -31,7 +33,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public Veiculo salvar(Veiculo veiculo) {
         if (veiculo.getLeilao() == null || leilaoRepository.findById(veiculo.getLeilao().getId()).isEmpty()) {
-            throw new ResourceNotFoundException("Leilão não encontrado ou inválido para o veículo.");
+            throw new ResourceNotFoundException("Leilão não encontrado ou inválido.");
         }
 
         return veiculoRepository.save(veiculo);
@@ -77,4 +79,39 @@ public class VeiculoServiceImpl implements VeiculoService {
             throw new InvalidOperationException("Erro ao tentar remover o veículo com ID " + id + ".");
         }
     }
+
+    @Override
+    public void desassociarVeiculoLeilao(Long itemId, Long leilaoId, Long novoLeilaoId) {
+        // Verifica se o item existe e está associado ao leilão atual
+        Veiculo veiculo = veiculoRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Veiculo não encontrado"));
+
+        Leilao leilaoAtual = leilaoRepository.findById(leilaoId)
+                .orElseThrow(() -> new IllegalArgumentException("Leilão atual não encontrado"));
+
+        // Verifica se o Veiculo está associado ao leilão atual
+        if (!veiculo.getLeilao().getId().equals(leilaoId)) {
+            throw new IllegalArgumentException("O veiculo não está associado ao leilão atual.");
+        }
+
+        // Verifica se o Veiculo foi vendido
+        //if (veiculoFoiVendido(veiculo)) {
+        //    throw new IllegalStateException("Não é possível desassociar um veiculo que já foi vendido.");
+        //}
+
+        // Verifica se o novo leilão é válido
+        Leilao novoLeilao = leilaoRepository.findById(novoLeilaoId)
+                .orElseThrow(() -> new IllegalArgumentException("Novo leilão não encontrado."));
+
+        // Associa o veiculo ao novo leilão
+        veiculo.setLeilao(novoLeilao);
+        veiculoRepository.update(veiculo);
+    }
+
+    // Método para verificar se o veiculo foi vendido
+    //private boolean veiculoFoiVendido(Veiculo veiculo) {
+    //    // Implementar lógica para verificar se o dispositivo foi vendido (ex: verificar se recebeu lances)
+    //    // Por exemplo, retornar true se houver lances associados ao dispositivo
+    //    return false; // Exemplo simplificado
+    //}
 }

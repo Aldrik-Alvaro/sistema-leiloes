@@ -16,5 +16,7 @@ public interface VeiculoService {
     Veiculo atualizar(Long id, Veiculo veiculoAtualizado);
 
     void deletar(Long id);
+
+    void desassociarVeiculoLeilao(Long dispositivoId, Long leilaoId, Long novoLeilaoId);
 }
 

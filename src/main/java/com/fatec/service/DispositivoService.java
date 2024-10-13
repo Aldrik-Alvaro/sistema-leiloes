@@ -16,6 +16,8 @@ public interface DispositivoService {
     DispositivoInformatica atualizar(Long id, DispositivoInformatica dispositivoAtualizado);
 
     void deletar(Long id);
+
+    void desassociarDispositivoDeLeilao(Long dispositivoId, Long leilaoId, Long novoLeilaoId);
 }
 
 
