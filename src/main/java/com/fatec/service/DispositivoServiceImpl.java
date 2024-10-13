@@ -35,8 +35,7 @@ public class DispositivoServiceImpl implements DispositivoService {
 
     @Override
     public DispositivoInformatica atualizar(Long id, DispositivoInformatica dispositivoAtualizado) {
-        // Setar o ID do dispositivo atualizado para garantir que ele está correto
-        dispositivoAtualizado.setId(id); // Garante que o ID está correto
+        dispositivoAtualizado.setId(id);
         return dispositivoRepository.update(dispositivoAtualizado);
     }
 

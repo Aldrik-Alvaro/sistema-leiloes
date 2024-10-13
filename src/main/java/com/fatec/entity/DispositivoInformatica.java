@@ -16,10 +16,10 @@ public class DispositivoInformatica {
     private Long id;
 
     private String nome;
-    private String tipo;  // Ex: Notebook, Monitor
+    private String tipo;
     private String marca;
     private String modelo;
     private String especificacoes;
 
-    // Outros atributos relevantes para o dispositivo
+
 }
