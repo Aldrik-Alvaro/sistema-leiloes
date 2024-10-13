@@ -10,8 +10,10 @@ import java.util.List;
 
 import com.fatec.entity.DispositivoInformatica;
 import com.fatec.service.DispositivoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller("/dispositivos")
+@Tag(name = "Dispositivo")
 public class DispositivoController {
 
     @Inject
