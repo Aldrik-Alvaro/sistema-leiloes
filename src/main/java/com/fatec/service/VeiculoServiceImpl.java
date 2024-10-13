@@ -8,6 +8,8 @@ import java.util.Optional;
 import com.fatec.entity.Veiculo;
 import com.fatec.repository.LeilaoRepository;
 import com.fatec.repository.VeiculoRepository;
+import com.fatec.exception.ResourceNotFoundException;
+import com.fatec.exception.InvalidOperationException;
 
 @Singleton
 public class VeiculoServiceImpl implements VeiculoService {
@@ -28,19 +30,19 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     @Override
     public Veiculo salvar(Veiculo veiculo) {
-        // Verificar se o leilão associado existe
         if (veiculo.getLeilao() == null || leilaoRepository.findById(veiculo.getLeilao().getId()).isEmpty()) {
-            throw new IllegalArgumentException("Leilão não encontrado ou inválido para o veículo.");
+            throw new ResourceNotFoundException("Leilão não encontrado ou inválido para o veículo.");
         }
 
-        // Se o leilão for válido, salvar o veículo
         return veiculoRepository.save(veiculo);
-        //return veiculoRepository.save(veiculo);
     }
 
     @Override
     public Optional<Veiculo> buscarPorId(Long id) {
-        return veiculoRepository.findById(id);
+        return veiculoRepository.findById(id)
+                .or(() -> {
+                    throw new ResourceNotFoundException("Veículo com ID " + id + " não encontrado.");
+                });
     }
 
     @Override
@@ -58,11 +60,21 @@ public class VeiculoServiceImpl implements VeiculoService {
             veiculoExistente.setEstadoConservacao(veiculoAtualizado.getEstadoConservacao());
 
             return veiculoRepository.update(veiculoExistente);
-        }).orElseThrow(() -> new IllegalArgumentException("Veículo com ID " + id + " não encontrado"));
+        }).orElseThrow(() -> new ResourceNotFoundException("Veículo com ID " + id + " não encontrado."));
     }
 
     @Override
     public void deletar(Long id) {
-        veiculoRepository.deleteById(id);
+        Optional<Veiculo> veiculo = veiculoRepository.findById(id);
+
+        if (veiculo.isEmpty()) {
+            throw new ResourceNotFoundException("Veículo com ID " + id + " não encontrado.");
+        }
+
+        try {
+            veiculoRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new InvalidOperationException("Erro ao tentar remover o veículo com ID " + id + ".");
+        }
     }
 }

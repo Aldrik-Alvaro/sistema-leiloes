@@ -15,7 +15,7 @@ public interface DispositivoService {
 
     DispositivoInformatica atualizar(Long id, DispositivoInformatica dispositivoAtualizado);
 
-    void remover(Long id);
+    void deletar(Long id);
 }
 
 

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import com.fatec.entity.Cliente;
 import com.fatec.repository.ClienteRepository;
+import com.fatec.exception.ResourceNotFoundException;
+import com.fatec.exception.InvalidOperationException;
 
 @Singleton
 public class ClienteServiceImpl implements ClienteService {
@@ -25,7 +27,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Optional<Cliente> buscarPorId(Long id) {
-        return repository.findById(id);
+        return repository.findById(id)
+                .or(() -> {
+                    throw new ResourceNotFoundException("Cliente com ID " + id + " não encontrado.");
+                });
     }
 
     @Override
@@ -35,22 +40,28 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente atualizar(Long id, Cliente cliente) {
-        Optional<Cliente> existing = repository.findById(id);
-        if (existing.isPresent()) {
-            Cliente updated = existing.get();
-            updated.setNome(cliente.getNome());
-            updated.setCpf(cliente.getCpf());
-            updated.setEmail(cliente.getEmail());
-            updated.setEndereco(cliente.getEndereco());
-            updated.setTelefone(cliente.getTelefone());
-            return repository.update(updated);
-        } else {
-            return null;
-        }
+        return repository.findById(id).map(existing -> {
+            existing.setNome(cliente.getNome());
+            existing.setCpf(cliente.getCpf());
+            existing.setEmail(cliente.getEmail());
+            existing.setEndereco(cliente.getEndereco());
+            existing.setTelefone(cliente.getTelefone());
+            return repository.update(existing);
+        }).orElseThrow(() -> new ResourceNotFoundException("Cliente com ID " + id + " não encontrado."));
     }
 
     @Override
-    public void remover(Long id) {
-        repository.deleteById(id);
+    public void deletar(Long id) {
+        Optional<Cliente> cliente = repository.findById(id);
+
+        if (cliente.isEmpty()) {
+            throw new ResourceNotFoundException("Cliente com ID " + id + " não encontrado.");
+        }
+
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new InvalidOperationException("Erro ao tentar remover o cliente com ID " + id + ".");
+        }
     }
 }

@@ -8,6 +8,8 @@ import java.util.Optional;
 import com.fatec.entity.DispositivoInformatica;
 import com.fatec.repository.DispositivoRepository;
 import com.fatec.repository.LeilaoRepository;
+import com.fatec.exception.ResourceNotFoundException;
+import com.fatec.exception.InvalidOperationException;
 
 @Singleton
 public class DispositivoServiceImpl implements DispositivoService {
@@ -28,28 +30,46 @@ public class DispositivoServiceImpl implements DispositivoService {
 
     @Override
     public DispositivoInformatica salvar(DispositivoInformatica dispositivo) {
+
         if (dispositivo.getLeilao() == null || leilaoRepository.findById(dispositivo.getLeilao().getId()).isEmpty()) {
-            throw new IllegalArgumentException("Leilão não encontrado ou inválido.");
+            throw new ResourceNotFoundException("Leilão não encontrado ou inválido.");
         }
 
-        // Se o leilão for válido, salvar o dispositivo
         return dispositivoRepository.save(dispositivo);
     }
 
     @Override
     public Optional<DispositivoInformatica> buscarPorId(Long id) {
-        return dispositivoRepository.findById(id);
+        return dispositivoRepository.findById(id)
+                .or(() -> {
+                    throw new ResourceNotFoundException("Dispositivo com ID " + id + " não encontrado.");
+                });
     }
 
     @Override
     public DispositivoInformatica atualizar(Long id, DispositivoInformatica dispositivoAtualizado) {
+        Optional<DispositivoInformatica> dispositivoExistente = dispositivoRepository.findById(id);
+
+        if (dispositivoExistente.isEmpty()) {
+            throw new ResourceNotFoundException("Dispositivo com ID " + id + " não encontrado.");
+        }
+
         dispositivoAtualizado.setId(id);
         return dispositivoRepository.update(dispositivoAtualizado);
     }
 
     @Override
-    public void remover(Long id) {
-        dispositivoRepository.deleteById(id);
+    public void deletar(Long id) {
+        Optional<DispositivoInformatica> dispositivo = dispositivoRepository.findById(id);
+
+        if (dispositivo.isEmpty()) {
+            throw new ResourceNotFoundException("Dispositivo com ID " + id + " não encontrado.");
+        }
+
+        try {
+            dispositivoRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new InvalidOperationException("Erro ao tentar remover o dispositivo com ID " + id + ".");
+        }
     }
 }
-

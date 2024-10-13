@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import com.fatec.entity.InstituicaoFinanceira;
 import com.fatec.repository.InstituicaoFinanceiraRepository;
+import com.fatec.exception.ResourceNotFoundException;
+import com.fatec.exception.InvalidOperationException;
 
 @Singleton
 public class InstituicaoFinanceiraServiceImpl implements InstituicaoFinanceiraService {
@@ -25,7 +27,10 @@ public class InstituicaoFinanceiraServiceImpl implements InstituicaoFinanceiraSe
 
     @Override
     public Optional<InstituicaoFinanceira> buscarPorId(Long id) {
-        return repository.findById(id);
+        return repository.findById(id)
+                .or(() -> {
+                    throw new ResourceNotFoundException("Instituição Financeira com ID " + id + " não encontrada.");
+                });
     }
 
     @Override
@@ -35,21 +40,27 @@ public class InstituicaoFinanceiraServiceImpl implements InstituicaoFinanceiraSe
 
     @Override
     public InstituicaoFinanceira atualizar(Long id, InstituicaoFinanceira instituicaoFinanceira) {
-        Optional<InstituicaoFinanceira> existing = repository.findById(id);
-        if (existing.isPresent()) {
-            InstituicaoFinanceira updated = existing.get();
-            updated.setNome(instituicaoFinanceira.getNome());
-            updated.setCnpj(instituicaoFinanceira.getCnpj());
-            updated.setEndereco(instituicaoFinanceira.getEndereco());
-            updated.setTelefone(instituicaoFinanceira.getTelefone());
-            return repository.update(updated);
-        } else {
-            return null;
-        }
+        return repository.findById(id).map(existing -> {
+            existing.setNome(instituicaoFinanceira.getNome());
+            existing.setCnpj(instituicaoFinanceira.getCnpj());
+            existing.setEndereco(instituicaoFinanceira.getEndereco());
+            existing.setTelefone(instituicaoFinanceira.getTelefone());
+            return repository.update(existing);
+        }).orElseThrow(() -> new ResourceNotFoundException("Instituição Financeira com ID " + id + " não encontrada."));
     }
 
     @Override
     public void deletar(Long id) {
-        repository.deleteById(id);
+        Optional<InstituicaoFinanceira> instituicao = repository.findById(id);
+
+        if (instituicao.isEmpty()) {
+            throw new ResourceNotFoundException("Instituição Financeira com ID " + id + " não encontrada.");
+        }
+
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new InvalidOperationException("Erro ao tentar remover a Instituição Financeira com ID " + id + ".");
+        }
     }
 }
