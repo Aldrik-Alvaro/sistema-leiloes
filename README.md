@@ -1,34 +1,29 @@
-## Micronaut 4.6.3 Documentation
+# Sistema de Leilões
 
-- [User Guide](https://docs.micronaut.io/4.6.3/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.6.3/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.6.3/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
+Devido aos constantes produtos e imóveis apreendidos pela Receita Federal do Brasil, o
+governo Brasileiro identificou a necessidade de desenvolver um Sistema de Leilões Eletrônicos
+mais robusto e simples que o atual Sistema de Leilões Eletrônicos (SLE) já existente e usado
+através do portal eCAC.
 
----
+## Dependencias Necessarias:
+Para executar este projeto, você precisará das seguintes ferramentas:
+*  [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html): Utilizado para o Back-end.
+*  [Maven](https://maven.apache.org/): Gerenciador de dependencias Java.
+*  [Intellij](https://www.jetbrains.com/pt-br/idea/download/?section=windows): IDE Java recomendada.
 
-- [Micronaut Maven Plugin documentation](https://micronaut-projects.github.io/micronaut-maven-plugin/latest/)
+## Executando a aplicação 
+1. Instale o Java 17 / Maven;
+   
+2.  Clonar o repositório utilizando:
+   `git clone https://github.com/Aldrik-Alvaro/sistema-leiloes.git`
 
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-## Feature jdbc-hikari documentation
-
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
-
-## Feature maven-enforcer-plugin documentation
-
-- [https://maven.apache.org/enforcer/maven-enforcer-plugin/](https://maven.apache.org/enforcer/maven-enforcer-plugin/)
-
-## Feature serialization-jackson documentation
-
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-## Feature lombok documentation
-
-- [Micronaut Project Lombok documentation](https://docs.micronaut.io/latest/guide/index.html#lombok)
-
-- [https://projectlombok.org/features/all](https://projectlombok.org/features/all)
-
+3. Acesse o caminho da pasta executando:
+    `cd sistema-leiloes`
+   
+4. Rodar `mvn clean install` para instalar as dependências;
+   
+5. Execute o seguinte comando:
+   `mvn mn:run`
+   
+6. A aplicação estará disponivel em `localhost:8080`
 
