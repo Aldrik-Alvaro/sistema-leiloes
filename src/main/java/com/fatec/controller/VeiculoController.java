@@ -10,10 +10,10 @@ import java.util.List;
 
 import com.fatec.entity.Veiculo;
 import com.fatec.service.VeiculoService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller("/veiculos")
-@Tag(name = "Veiculo")
+//@Tag(name = "Veiculo")
 public class VeiculoController {
 
     @Inject
