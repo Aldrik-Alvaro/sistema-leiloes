@@ -9,11 +9,11 @@ import java.util.List;
 
 import com.fatec.entity.Cliente;
 import com.fatec.service.ClienteService;
-//import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @Controller("/clientes")
-//@Tag(name = "Cliente")
+@Tag(name = "Cliente")
 public class ClienteController {
 
     @Inject

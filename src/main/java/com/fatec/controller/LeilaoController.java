@@ -9,10 +9,10 @@ import java.util.List;
 
 import com.fatec.entity.Leilao;
 import com.fatec.service.LeilaoService;
-//import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller("/leiloes")
-//@Tag(name = "Leilao")
+@Tag(name = "Leilao")
 public class LeilaoController {
 
     @Inject

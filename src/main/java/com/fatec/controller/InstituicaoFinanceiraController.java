@@ -9,10 +9,10 @@ import java.util.List;
 
 import com.fatec.entity.InstituicaoFinanceira;
 import com.fatec.service.InstituicaoFinanceiraService;
-//import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller("/instituicoes-financeiras")
-//@Tag(name = "instituicoes-financeiras")
+@Tag(name = "instituicoes-financeiras")
 public class InstituicaoFinanceiraController {
 
     @Inject
