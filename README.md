@@ -25,7 +25,7 @@ Para executar este projeto, você precisará das seguintes ferramentas:
 5. Execute o seguinte comando:
    `mvn mn:run`
 
-6. A aplicação estará disponivel em `localhost:8080`
+6. A aplicação estará disponivel em `localhost:8080` e atraves do arquivo de importação insomnia `https://github.com/Aldrik-Alvaro/sistema-leiloes/blob/main/Insomnia.json`
 
 ## Rotas Disponíveis
 
